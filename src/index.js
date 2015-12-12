@@ -22,8 +22,7 @@ export function rAll (items, fn){
  * @n: number of processes to be executed each second
  * @j: function will be applied to all items from index j, 0 by default
  */
-export function rES(array, fn, n, j){
-  let i = j ? j : 0;
+export function rES(array, fn, n, i = 0){
   return new Promise((resolve,reject) => {
     if (i >= array.length)
       return resolve();
@@ -45,19 +44,27 @@ export function rES(array, fn, n, j){
   });
 }
 
+/**
+ * rLimit = resolve by subsets limited to n items
+ * set: will be splited into subsets
+ * @fn: the function to aply to each item of the array,
+ * @l: number of processes to be executed each time
+ * @i: function will be applied to all subsets from index i, 0 by default
+ */
 export function rLimit(set, fn, l, i = 0){
   return new Promise ((resolve, reject) => {
     if (i >= subsets(set,l).length)
       resolve();
     else {
-      rAll(subsets(set,l)[i]).then(()=>{
+      rAll(subsets(set,l)[i], fn).then(()=>{
         return rLimit(set, fn, l, i+1);
       }).then(()=> {
         resolve();
       }).catch(err => {
         if (err)
           console.log(err);
-        return resolve(rLimit(set, fn, l, i+1));
+        else
+          resolve(rLimit(set, fn, l, i+1));
       });
     }
   });

@@ -59,4 +59,14 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
+  describe('rLimit with errors', ()=>{
+    it('should finish all processes', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      rLimit(items, processItemError, 3).then(()=>{
+        done();
+      }).catch(err => {
+        throw err;
+      });
+    })
+  });
 });
