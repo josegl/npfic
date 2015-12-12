@@ -1,0 +1,34 @@
+{
+  "name": "node-promise-iteration",
+  "version": "1.0.0",
+  "description": "Mechanism to control Promise iteration",
+  "main": "lib/index.js",
+  "scripts": {
+    "prepublish": "rimraf lib && babel src --out-dir lib",
+    "test": "mocha --timeout 40000 --compilers js:babel-register --reporter spec test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/josegl/node-promise-iteration.git"
+  },
+  "homepage": "https://github.com/josegl/node-promise-iteration",
+  "keywords": [
+    "es6",
+    "promises"
+  ],
+  "author": "Jose García <jgarloz18@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "babel-cli": "*",
+    "babel-core": "*",
+    "babel-eslint": "*",
+    "babel-preset-es2015": "*",
+    "babel-preset-stage-0": "*",
+    "babel-register": "*",
+    "chai": "*",
+    "eslint": "*",
+    "eslint-config-airbnb": "*",
+    "mocha": "*",
+    "rimraf": "*"
+  }
+}
