@@ -19,7 +19,7 @@ n items will be run, and so on.
   per second.**
 
 This is similar to the first one, but instead of running the process to all items at once, you
-can limit it to run n items each second, this is usefull when you need to connect an API with
+can limit it to run n items each second, this is useful when you need to connect an API with
 usage limits, you can just adjust how many items you want to process each second to be the same as
 the API limits, so the entire process of all elements will be the fastest (only if the item
-process time is low enougth to reach the API limit usage, keep this in mind).
+process time is low enough to reach the API limit usage, keep this in mind).
