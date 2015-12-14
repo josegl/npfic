@@ -33,6 +33,8 @@ structure like an array.
 **`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
 single item. It must return a promise, or a _thenable_ object.
 
+**Why that function name?** Its for resolve all the fn promises for each item of the array.
+
 #### Example
 ```javascript
 import rAll from 'npfic';
@@ -90,5 +92,81 @@ function main(){
 main();
 ```
 
-**NOTE:** It is up to you to return a result, if you don't want any verbosity, then fell free to
+**NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
+do not return any result.
+
+### `rES(set, fn, n, i[optional])`
+**Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
+run n process each second.
+structure like an array.
+
+**`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
+single item. It must return a promise, or a _thenable_ object.
+
+**n definition**: This is a possitive integer number which specifies how many process can be run
+each second.
+
+**i definition**: This is a possitive integer number which specifies the initial iterable
+structure index to be process. 0 if no present when the function is called.
+
+**Why that function name?** Its for resolve n fn promises Each Second for each item of the array.
+
+#### Example
+```javascript
+import rES from 'npfic';
+
+function step1 (item){
+  return new Promise((resolve, reject) => {
+    if (item % 2 === 1)
+      reject(new Error('Item no valid'));
+    setTimeout(()=>{
+      resolve('step 1 for item ' + item);
+    }, 1000);
+  });
+}
+
+function step2 (item){
+  return new Promise((resolve, reject) => {
+     setTimeout(()=>{
+       resolve('step 2 for item ' + item);
+     }, 1000);
+  });
+}
+
+function step3 (item){
+  return new Promise((resolve, reject) => {
+    setTimeout(()=>{
+      resolve('step 3 for item ' + item);
+    }, 1000);
+  });
+}
+
+function processItem (item) {
+  return step1(item).then(result =>{
+     console.log(result);
+     return step2(item);
+  }).then(result =>{
+     console.log(result);
+     return step3(item);
+  }).then(result =>{
+     console.log(result);
+     return ('finished process of item ' + item);
+  }).catch(err =>{
+     throw (err);
+  });
+}
+
+function main(){
+  let a = [1,2,3,4,5,6,7,8,9,10];
+  rAll(a, processItem, 5).then(result => {
+    console.log(result);
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+main();
+```
+
+**NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
 do not return any result.
