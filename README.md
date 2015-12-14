@@ -170,3 +170,78 @@ main();
 
 **NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
 do not return any result.
+
+### `rLimit(set, fn, l, i[optional])`
+**Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
+apply to l items each time.
+
+**`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
+single item. It must return a promise, or a _thenable_ object.
+
+**l definition**: This is a possitive integer number which specifies how many process can be run
+each time.
+
+**i definition**: This is a possitive integer number which specifies the initial iterable
+subset to be process. 0 if no present when the function is called.
+
+**Why that function name?** Its for resolve Limit l promises each time.
+
+#### Example
+```javascript
+import rLimit from 'npfic';
+
+function step1 (item){
+  return new Promise((resolve, reject) => {
+    if (item % 2 === 1)
+      reject(new Error('Item no valid'));
+    setTimeout(()=>{
+      resolve('step 1 for item ' + item);
+    }, 1000);
+  });
+}
+
+function step2 (item){
+  return new Promise((resolve, reject) => {
+     setTimeout(()=>{
+       resolve('step 2 for item ' + item);
+     }, 1000);
+  });
+}
+
+function step3 (item){
+  return new Promise((resolve, reject) => {
+    setTimeout(()=>{
+      resolve('step 3 for item ' + item);
+    }, 1000);
+  });
+}
+
+function processItem (item) {
+  return step1(item).then(result =>{
+     console.log(result);
+     return step2(item);
+  }).then(result =>{
+     console.log(result);
+     return step3(item);
+  }).then(result =>{
+     console.log(result);
+     return ('finished process of item ' + item);
+  }).catch(err =>{
+     throw (err);
+  });
+}
+
+function main(){
+  let a = [1,2,3,4,5,6,7,8,9,10];
+  rLimit(a, processItem, 3).then(result => {
+    console.log(result);
+  }).catch(err => {
+    console.log(err);
+  });
+}
+
+main();
+```
+
+**NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
+do not return any result.
