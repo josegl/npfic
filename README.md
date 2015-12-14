@@ -44,7 +44,7 @@ function step1 (item){
     setTimeout(()=>{
       resolve('step 1 for item ' + item);
     }, 1000);
-});
+  });
 }
 
 function step2 (item){
@@ -86,5 +86,9 @@ function main(){
     console.log(err);
   });
 }
+
+main();
 ```
 
+**NOTE:** It is up to you to return a result, if you don't want any verbosity, then fell free to
+do not return any result.
