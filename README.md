@@ -6,6 +6,7 @@
     * [rLimit](#rlimit)
 
 <a name='intro'></a>
+## Introduction
 This is a pure native javascript ES6/2015 function library with no third party deps which provides you the following functionality:
 
 * **Apply an asynchronous proccess to all items of an iterable structure like an array, with failure
@@ -104,7 +105,7 @@ main();
 do not return any result.
 
 <a name='res'></a>
-### `rES(set, fn, n, i[optional])`
+### `rES(set, fn, n, [i])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 run n process each second.
 structure like an array.
@@ -181,7 +182,7 @@ main();
 do not return any result.
 
 <a name='rlimit'></a>
-### `rLimit(set, fn, l, i[optional])`
+### `rLimit(set, fn, l, [i])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 apply to l items each time.
 
