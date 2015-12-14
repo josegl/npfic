@@ -1,4 +1,4 @@
-export function rLimit (items, fn){
+export function rAll (items, fn){
   return new Promise((resolve,reject) => {
     for (let i = 0; i < items.length; i++){
       fn(items[i]).then(result => {
