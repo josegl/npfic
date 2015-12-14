@@ -1,5 +1,5 @@
 # npfic is Node Promises Flow Iteration Control.
-[![Build Status](https://travis-ci.org/josegl/npfic.svg?branch=development)](https://travis-ci.org/josegl/npfic)
+[![Build Status](https://travis-ci.org/josegl/npfic.svg?branch=master)](https://travis-ci.org/josegl/npfic)
 * [Introduction](#intro)
 * [How to install](#install)
 * [How to use](#use)
