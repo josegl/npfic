@@ -1,9 +1,10 @@
 # npfic is Node Promises Flow Iteration Control.
 ### [Introduction](#intro)
 ### [API](#api)
-    [rAll](#rall)
-    [rES](#res)
-    [rLimit](#rlimit)
+* [rAll](#rall)
+* [rES](#res)
+* [rLimit](#rlimit)
+
 <a name='intro'></a>
 This is a pure native javascript ES6/2015 function library with no third party deps which provides you the following functionality:
 
