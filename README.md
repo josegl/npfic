@@ -1,6 +1,10 @@
 # npfic is Node Promises Flow Iteration Control.
 [![Build Status](https://travis-ci.org/josegl/npfic.svg?branch=development)](https://travis-ci.org/josegl/npfic)
 * [Introduction](#intro)
+* [How to install](#install)
+* [How to use](#use)
+    * [Full ES6/7 Environment](#es67)
+    * [Only native promises support](#onlyp)
 * [API](#api)
     * [rAll](#rall)
     * [rES](#res)
@@ -32,6 +36,29 @@ usage limits, you can just adjust how many items you want to process each second
 the API limits, so the entire process of all elements will be the fastest (only if the item
 process time is low enough to reach the API limit usage, keep this in mind).
 
+<a name='install'></a>
+## How to install.
+As the others npm packages: 
+`npm install npfic`
+
+<a name='use'></a>
+## How to use.
+<a name='es67'></a>
+#### With full ES6/7 environment.
+You only need to import the function or functions you are going to use:
+```javascript
+import rAll, rES, rLimit from 'npfic';
+```
+
+<a name='onlyp'></a>
+#### With only native promises support.
+You can require the package as the usually:
+```javascript
+var npfic = require('npfic');
+npfic.rAll();
+npfic.rES();
+npfic.rLimit();
+```
 <a name='api'></a>
 ##API
 
