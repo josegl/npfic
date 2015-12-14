@@ -30,11 +30,11 @@ usage limits, you can just adjust how many items you want to process each second
 the API limits, so the entire process of all elements will be the fastest (only if the item
 process time is low enough to reach the API limit usage, keep this in mind).
 
-##API
 <a name='api'></a>
+##API
 
-### `rAll(set, fn)`
 <a name='rall'></a>
+### `rAll(set, fn)`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable
 structure like an array.
 
@@ -103,8 +103,8 @@ main();
 **NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
 do not return any result.
 
-### `rES(set, fn, n, i[optional])`
 <a name='res'></a>
+### `rES(set, fn, n, i[optional])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 run n process each second.
 structure like an array.
@@ -180,8 +180,8 @@ main();
 **NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
 do not return any result.
 
-### `rLimit(set, fn, l, i[optional])`
 <a name='rlimit'></a>
+### `rLimit(set, fn, l, i[optional])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 apply to l items each time.
 
