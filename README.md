@@ -1,7 +1,12 @@
 # npfic is Node Promises Flow Iteration Control.
+### [Introduction](#intro)
+### [API](#api)
+    [rAll](#rall)
+    [rES](#res)
+    [rLimit](#rlimit)
+<a name='intro'></a>
+This is a pure native javascript ES6/2015 function library with no third party deps which provides you the following functionality:
 
-This is a pure native javascript ES6/2015 function library with no third party deps which
-provides you the following functionality:
 * **Apply an asynchronous proccess to all items of an iterable structure like an array, with failure
   tolerance.**
 
@@ -25,8 +30,10 @@ the API limits, so the entire process of all elements will be the fastest (only 
 process time is low enough to reach the API limit usage, keep this in mind).
 
 ##API
+<a name='api'></a>
 
 ### `rAll(set, fn)`
+<a name='rall'></a>
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable
 structure like an array.
 
@@ -96,6 +103,7 @@ main();
 do not return any result.
 
 ### `rES(set, fn, n, i[optional])`
+<a name='res'></a>
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 run n process each second.
 structure like an array.
@@ -172,6 +180,7 @@ main();
 do not return any result.
 
 ### `rLimit(set, fn, l, i[optional])`
+<a name='rlimit'></a>
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 apply to l items each time.
 
