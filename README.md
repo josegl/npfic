@@ -26,7 +26,7 @@ process time is low enough to reach the API limit usage, keep this in mind).
 
 ##API
 
- ### * `rAll(set, fn)`
+### `rAll(set, fn)`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable
 structure like an array.
 
@@ -95,7 +95,7 @@ main();
 **NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
 do not return any result.
 
-* ### `rES(set, fn, n, i[optional])`
+### `rES(set, fn, n, i[optional])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 run n process each second.
 structure like an array.
@@ -171,7 +171,7 @@ main();
 **NOTE:** It is up to you to return a result, if you don't want any verbosity, then feel free to
 do not return any result.
 
-* ### `rLimit(set, fn, l, i[optional])`
+### `rLimit(set, fn, l, i[optional])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 apply to l items each time.
 
