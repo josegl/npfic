@@ -30,5 +30,61 @@ process time is low enough to reach the API limit usage, keep this in mind).
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable
 structure like an array.
 
-**`fn` specification:** 
+**`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
+single item. It must return a promise, or a _thenable_ object.
+
+#### Example
+```javascript
+import rAll from 'npfic';
+
+function step1 (item){
+  return new Promise((resolve, reject) => {
+    if (item % 2 === 1)
+      reject(new Error('Item no valid'));
+    setTimeout(()=>{
+      resolve('step 1 for item ' + item);
+    }, 1000);
+});
+}
+
+function step2 (item){
+  return new Promise((resolve, reject) => {
+     setTimeout(()=>{
+       resolve('step 2 for item ' + item);
+     }, 1000);
+  });
+}
+
+function step3 (item){
+  return new Promise((resolve, reject) => {
+    setTimeout(()=>{
+      resolve('step 3 for item ' + item);
+    }, 1000);
+  });
+}
+
+function processItem (item) {
+  return step1(item).then(result =>{
+     console.log(result);
+     return step2(item);
+  }).then(result =>{
+     console.log(result);
+     return step3(item);
+  }).then(result =>{
+     console.log(result);
+     return ('finished process of item ' + item);
+  }).catch(err =>{
+     throw (err);
+  });
+}
+
+function main(){
+  let a = [1,2,3,4,5,6,7,8,9,10];
+  rAll(a, processItem).then(result => {
+    console.log(result);
+  }).catch(err => {
+    console.log(err);
+  });
+}
+```
 
