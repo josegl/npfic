@@ -26,7 +26,7 @@ process time is low enough to reach the API limit usage, keep this in mind).
 
 ##API
 
-* ### `rAll(set, fn)`
+ ### * `rAll(set, fn)`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable
 structure like an array.
 
