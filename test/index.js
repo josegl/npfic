@@ -140,4 +140,54 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
+  describe('rLimit with negative index', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      rLimit(items, processItemNoError, 13, -3).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    })
+  });
+  describe('rLimit with negative limit', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      rLimit(items, processItemNoError, -2).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    })
+  });
+  describe('rAll with no function', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      rAll(items, 'hi').then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    })
+  });
+  describe('rES with no function', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      rES(items, 'hi', 5).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    });
+  });
+  describe('rLimit with no function', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      rLimit(items, 'hi', 4).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    });
+  });
 });
