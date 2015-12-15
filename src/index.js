@@ -1,39 +1,43 @@
-export function rAll (items, fn){
+export function rAll (set, fn){
   return new Promise((resolve,reject) => {
+    if (!set[Symbol.iterator])
+      return reject(new Error('rAll: the object to apply the function to is not iterable'));
     if (typeof fn !== 'function')
       return reject(new Error('rAll: second argument is not a function'));
-    for (let i = 0; i < items.length; i++){
-      fn(items[i]).then(result => {
+    for (let i = 0; i < set.length; i++){
+      fn(set[i]).then(result => {
         if (result)
           console.log(result);
-        if (i === items.length - 1)
+        if (i === set.length - 1)
           resolve();
       }).catch(err =>{
         console.log(err);
-        if (i === items.length - 1)
+        if (i === set.length - 1)
           resolve();
       });
     }
   });
 }
 
-export function rES(array, fn, n, i = 0){
+export function rES(set, fn, n, i = 0){
   return new Promise((resolve,reject) => {
+    if (!set[Symbol.iterator])
+      return reject(new Error('rES: the object to apply the function to is not iterable'));
     if (typeof fn !== 'function')
       return reject(new Error('rES: second argument is not a function'));
     if (i < 0)
       return reject(new Error('rES: Negative iterable index are not allowed'));
-    i >= array.length ? resolve() : setTimeout(() => {
-      fn(array[i]).then(result => {
+    i >= set.length ? resolve() : setTimeout(() => {
+      fn(set[i]).then(result => {
         if (result)
           console.log(result);
-        return rES(array, fn, n, i+1);
+        return rES(set, fn, n, i+1);
       }).then(result => {
         resolve(result);
       }).catch(err =>{
         if (err)
           console.log(err);
-        resolve(rES(array, fn, n, i+1));
+        resolve(rES(set, fn, n, i+1));
       });
     },Math.floor(1000/n));
   });
@@ -41,6 +45,8 @@ export function rES(array, fn, n, i = 0){
 
 export function rLimit(set, fn, l, i = 0){
   return new Promise ((resolve, reject) => {
+    if (!set[Symbol.iterator])
+      return reject(new Error('rLimit: the object to apply the function to is not iterable'));
     if (typeof fn !== 'function')
       return reject(new Error('rLimit: second argument is not a function'));
     if (i < 0)

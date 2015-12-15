@@ -190,4 +190,34 @@ describe('Promises resolve flow control', ()=>{
       });
     });
   });
+  describe('rAll to a non iterable object', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = {1:1,2:2,3:3};
+      rAll(items, processItemNoError).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    });
+  });
+  describe('rES to a non iterable object', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = {1:1,2:2,3:3};
+      rES(items, processItemNoError, 4).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    });
+  });
+  describe('rLimit to a non iterable object', ()=>{
+    it('should throw an error and do not process anything', done => {
+      let items = {1:1,2:2,3:3};
+      rLimit(items, processItemNoError, 2).then(()=>{
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    });
+  });
 });
