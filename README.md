@@ -34,7 +34,7 @@ you.
 <a name='intro'></a>
 ## Introduction
 
-Npfic is a *pure native javascript ES6/2015 function library with no third party deps*, written following the [suckless philosophy](http://suckless.org/philosophy), which provides you the following functionality:
+Npfic is a **pure native javascript ES6/2015 function library with no third party deps**, written following the [suckless philosophy](http://suckless.org/philosophy), which provides you the following functionality:
 
 * **Apply an asynchronous proccess to all items of an iterable structure like an array, with failure
   tolerance.**
