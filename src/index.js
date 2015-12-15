@@ -17,6 +17,8 @@ export function rAll (items, fn){
 
 export function rES(array, fn, n, i = 0){
   return new Promise((resolve,reject) => {
+    if (i < 0)
+      reject(new Error('rES: Negative iterable index are not allowed'));
     i >= array.length ? resolve() : setTimeout(() => {
       fn(array[i]).then(result => {
         if (result)

@@ -61,6 +61,20 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
+  describe('rES 10 items, trying a negative iterable index', ()=>{
+    it('should throw an error', done => {
+      let items = [1,2,3,4,5,6,7,8,9,10];
+      let init = Date.now();
+      rES(items, fastrESError, 5, -1).then(()=>{
+        let end = Date.now();
+        chai.assert.equal(Math.floor((end - init)/1000),2);
+        done();
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    })
+  });
   describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, with no errors', ()=>{
     it('should finish all processes in 12 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
