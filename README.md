@@ -65,7 +65,7 @@ npfic.rLimit();
 <a name='rall'></a>
 ### `rAll(set, fn)`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable
-structure like an array.
+structure like an array. It returns a Promise.
 
 **`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
 single item. It must return a promise, or a _thenable_ object.
@@ -136,7 +136,7 @@ do not return any result.
 ### `rES(set, fn, n, [i])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
 run n process each second.
-structure like an array.
+structure like an array. It returns a Promise.
 
 **`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
 single item. It must return a promise, or a _thenable_ object.
@@ -212,7 +212,7 @@ do not return any result.
 <a name='rlimit'></a>
 ### `rLimit(set, fn, l, [i])`
 **Definition:** Apply the function `fn` to all items of `set`, where `set` is an iterable, and
-apply to l items each time.
+apply to l items each time. It retuns a Promise
 
 **`fn` specification:** `fn` must be an abstraction of the whole asynchronous process to be applied to a
 single item. It must return a promise, or a _thenable_ object.
