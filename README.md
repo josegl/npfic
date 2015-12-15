@@ -1,7 +1,7 @@
 # npfic is Node Promises Flow Iteration Control.
 [![Build Status](https://travis-ci.org/josegl/npfic.svg?branch=master)](https://travis-ci.org/josegl/npfic)
-* [Motivation](#motivation)
 * [Introduction](#intro)
+* [Motivation](#motivation)
 * [How to install](#install)
 * [How to use](#use)
     * [Full ES6/7 Environment](#es67)
@@ -11,30 +11,11 @@
     * [rES](#res)
     * [rLimit](#rlimit)
 
-<a name='motivation'></a>
-## Motivation
-In my everyday work I usually need to iterate over a bunch of asynchronous functions which are a
-cascade process to a single item. Before ES6 was standart and Nodejs didn't have builtin native
-promises, I used the great async lib to build cascades, and to iterate over asynchronous process.
-
-But one day native Promises came to Nodejs, and I realized that I could build a cascade asynchronous process
-in a very easy way with Promises. After that I continued using async for iterate over my own
-native cascades made with Promises. 
-
-Suddenly, one day I realized I was getting a very strange error wwhich, after many debugging
-hours, was related to how async was working when for a bunch of process I need all of them to be
-executed even if some of them give me errors, I could fix the issue, but I didn't like the
-solution, in fact, I didn't like to use async when I actually knew I could get the same functionality (at least the functionality I needed) with
-native code. So at this point is when I start to develop npfic.
-
-If you need async in your project, but you are running a Nodejs version with native Promises
-support, and you only use async to take control of Promises iteration, then Npfic is good for
-you.
 
 <a name='intro'></a>
 ## Introduction
 
-Npfic is a **pure native javascript ES6/2015 function library with no third party deps**, written following the [suckless philosophy](http://suckless.org/philosophy), which provides you the following functionality:
+Npfic is a **pure native javascript ES6/2015 function library with no third party deps**, very much smaller and simpler than [async](https://github.com/caolan/async), written following the [suckless philosophy](http://suckless.org/philosophy), which provides you the following functionality:
 
 * **Apply an asynchronous proccess to all items of an iterable structure like an array, with failure
   tolerance.**
@@ -57,6 +38,25 @@ can limit it to run n items each second, this is useful when you need to connect
 usage limits, you can just adjust how many items you want to process each second to be the same as
 the API limits, so the entire process of all elements will be the fastest (only if the item
 process time is low enough to reach the API limit usage, keep this in mind).
+
+<a name='motivation'></a>
+## Motivation
+In my everyday work I usually need to iterate over a bunch of asynchronous functions which are a
+cascade process to a single item. Before ES6 was standart and Nodejs didn't have builtin native
+promises, I used the great [async](https://github.com/caolan/async) lib to build cascades, and to iterate over that asynchronous cascades.
+
+But one day native Promises came to Nodejs, and I realized that I could build a cascade asynchronous process
+in a very easy way with them. After that, I continued using async for iterate over my own
+native cascades made with Promises. 
+
+Suddenly, one day I realized I was getting a very strange error which, after many debugging
+hours, I found it was related to how [async](https://github.com/caolan/async) was working when, for a bunch of process where all of them must be
+executed, even if some of them finish with errors. I could fix the issue, but I didn't like the
+solution, in fact, I didn't like to use async when I actually knew I could get the same functionality (at least the functionality I needed) with
+native code. So at this point is when I start to develop npfic.
+
+If you are running a Nodejs version with native Promises support, and you only use async to take control of Promises iteration, then Npfic is good for
+you. 
 
 <a name='install'></a>
 ## How to install.
