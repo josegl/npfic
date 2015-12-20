@@ -1,6 +1,6 @@
 {
   "name": "npfic",
-  "version": "1.1.1",
+  "version": "1.5.0",
   "description": "Mechanism to control node Promise iteration",
   "main": "lib/index.js",
   "scripts": {
