@@ -1,3 +1,4 @@
+/*
 export function rAll (set, fn){
   return new Promise((resolve,reject) => {
     let checker = checkRAllArgs(set, fn);
@@ -14,6 +15,25 @@ export function rAll (set, fn){
         if (i === set.length - 1)
           resolve();
       });
+    }
+  });
+}
+*/
+export function rAll (iterable, fn){
+  return new Promise((resolve,reject) => {
+    let checker = checkRAllArgs(iterable, fn);
+    if (checker.error)
+      return reject(checker.error);
+    let iterator = iterable.map(i => fn(i))[Symbol.iterator]();
+    let item  = iterator.next();
+    while (!item.done) {
+      item.value.then(result => {
+        if(result)
+          console.log(result);
+        if (item.done)
+          resolve();
+      });
+      item = iterator.next();
     }
   });
 }
