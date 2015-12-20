@@ -1,24 +1,3 @@
-/*
-export function rAll (set, fn){
-  return new Promise((resolve,reject) => {
-    let checker = checkRAllArgs(set, fn);
-    if (checker.error)
-      return reject(checker.error);
-    for (let i = 0; i < set.length; i++){
-      fn(set[i]).then(result => {
-        if (result)
-          console.log(result);
-        if (i === set.length - 1)
-          resolve();
-      }).catch(err =>{
-        console.log(err);
-        if (i === set.length - 1)
-          resolve();
-      });
-    }
-  });
-}
-*/
 export function rAll (iterable, fn){
   return new Promise((resolve,reject) => {
     let checker = checkRAllArgs(iterable, fn);
