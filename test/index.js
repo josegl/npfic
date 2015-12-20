@@ -88,13 +88,13 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, only half items are valid, the others give error', ()=>{
-    it('should finish all processes in 6 seconds', done => {
+  describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, only pair items are valid, the others give error', ()=>{
+    it('should finish all processes in 12 seconds because in each subset there is at least 1 valid item which takes 3 seconds to be processed', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
       rLimit(items, processItemError, 3).then(()=>{
         let end = Date.now();
-        chai.assert.equal(Math.floor((end - init)/1000),6);
+        chai.assert.equal(Math.floor((end - init)/1000),12);
         done();
       }).catch(err => {
         throw err;
