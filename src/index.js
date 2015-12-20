@@ -11,6 +11,9 @@ export function rAll (iterable, fn){
           console.log(result);
         if (item.done)
           resolve();
+      }).catch(err => {
+        if(err)
+          console.log(err);
       });
       item = iterator.next();
     }
