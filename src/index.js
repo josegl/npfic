@@ -59,6 +59,13 @@ export function rLimit(set, fn, l, i = 0){
   });
 }
 
+export function rSeq (set, fn){
+  return set.map(item => fn(item)).reduce((curr, next)=> {
+    return curr.then(()=>{
+      return next;
+    })},Promise.resolve());
+}
+
 function subsets(original, subsetSize){
   let a = [];
   for (let i = 0; i < original.length; i += subsetSize){
