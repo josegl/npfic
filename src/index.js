@@ -6,7 +6,7 @@ export function rAll (iterable, fn){
     let iterator = iterable.map(i => fn(i))[Symbol.iterator]();
     let item  = iterator.next();
     while (!item.done) {
-      item.value.then(result => {
+      item.value().then(result => {
         if(result)
           console.log(result);
         if (item.done)
@@ -19,6 +19,20 @@ export function rAll (iterable, fn){
     }
   });
 }
+/*
+export function rAll(iterable, fn){
+  let checker = checkRAllArgs(iterable, fn);
+  if (checker.error)
+    throw new Error(checker.error);
+  if (!Array.isArray(iterable))
+    iterable = toArry(iterable);
+  return new Promise((resolve, reject) => {
+    iterable.map(item => fn(item)).forEach(proc => {
+      resolve(proc());
+    });
+  });
+}
+*/
 
 export function rES(set, fn, n, i = 0){
   return new Promise((resolve,reject) => {
@@ -107,5 +121,16 @@ function checkRLimitArgs(set, fn, l, i){
   else if (i < 0)
     result.error = new Error('rLimit: Negative iterable index are not allowed');
   return result;
+}
+
+function toArray(iterable){
+  let a = [];
+  let iterator = iterable[Symbol.iterator]();
+  let item  = iterator.next();
+  while (!item.done) {
+    a.push(item.value);
+    item = iterator.next();
+  }
+  return item;
 }
 
