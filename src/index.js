@@ -1,38 +1,10 @@
-export function rAll (iterable, fn){
-  return new Promise((resolve,reject) => {
-    let checker = checkRAllArgs(iterable, fn);
-    if (checker.error)
-      return reject(checker.error);
-    let iterator = iterable.map(i => fn(i))[Symbol.iterator]();
-    let item  = iterator.next();
-    while (!item.done) {
-      item.value().then(result => {
-        if(result)
-          console.log(result);
-        if (item.done)
-          resolve();
-      }).catch(err => {
-        if(err)
-          console.log(err);
-      });
-      item = iterator.next();
-    }
-  });
-}
-/*
-export function rAll(iterable, fn){
-  let checker = checkRAllArgs(iterable, fn);
-  if (checker.error)
-    throw new Error(checker.error);
-  if (!Array.isArray(iterable))
-    iterable = toArry(iterable);
+export function rAll(arr, fn){
   return new Promise((resolve, reject) => {
-    iterable.map(item => fn(item)).forEach(proc => {
-      resolve(proc());
+    return arr.map(item => fn(item)).forEach(proc => {
+      return resolve(proc());
     });
   });
 }
-*/
 
 export function rES(set, fn, n, i = 0){
   return new Promise((resolve,reject) => {
@@ -76,7 +48,7 @@ export function rLimit(set, fn, l, i = 0){
 export function rSeq (set, fn){
   return set.map(item => fn(item)).reduce((curr, next)=> {
     return curr.then(()=>{
-      return next;
+      return next();
     })},Promise.resolve());
 }
 
@@ -86,51 +58,5 @@ function subsets(original, subsetSize){
     a.push(original.slice(i, i+subsetSize));
   }
   return a;
-}
-
-function checkRAllArgs(set, fn){
-  let result = {};
-  if (!set[Symbol.iterator])
-    result.error = new Error('rAll: the set is not iterable');
-  else if (!/function/.test(typeof(fn)))
-    result.error = new Error('rAll: The function to execute is not a function');
-  return result;
-}
-
-function checkRESArgs(set, fn, n, i){
-  let result = {};
-  if (!set[Symbol.iterator])
-    result.error = new Error('rES: the set is not iterable');
-  else if (!/function/.test(typeof(fn)))
-    result.error = new Error('rES: The function to execute is not a function');
-  else if (n <= 0)
-    result.error = new Error('rES: Zero or negative limit not allowed');
-  else if (i < 0)
-    result.error = new Error('rES: Negative iterable index are not allowed');
-  return result;
-}
-
-function checkRLimitArgs(set, fn, l, i){
-  let result = {};
-  if (!set[Symbol.iterator])
-    result.error = new Error('rLimit: the set is not iterable');
-  else if (!/function/.test(typeof(fn)))
-    result.error = new Error('rLimit: The function to execute is not a function');
-  else if (l <= 0)
-    result.error = new Error('rLimit: Zero or negative limit not allowed');
-  else if (i < 0)
-    result.error = new Error('rLimit: Negative iterable index are not allowed');
-  return result;
-}
-
-function toArray(iterable){
-  let a = [];
-  let iterator = iterable[Symbol.iterator]();
-  let item  = iterator.next();
-  while (!item.done) {
-    a.push(item.value);
-    item = iterator.next();
-  }
-  return item;
 }
 
