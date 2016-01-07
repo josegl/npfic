@@ -27,26 +27,6 @@ export function rES(set, fn, n, i = 0){
   });
 }
 
-/*
-export function rLimit(set, fn, l, i = 0){
-  return new Promise ((resolve, reject) => {
-    let checker = checkRLimitArgs(set, fn, l, i);
-    if (checker.error)
-      return reject(checker.error);
-    i >= subsets(set,l).length ?
-      resolve() : rAll(subsets(set,l)[i], fn).then(()=>{
-      return rLimit(set, fn, l, i+1);
-    }).then(()=> {
-      resolve();
-    }).catch(err => {
-      if(err)
-        console.log(err);
-      resolve(rLimit(set, fn, l, i+1));
-    });
-  });
-}
-*/
-
 export function rLimit(set, fn, l){
   return subsets(set,l).map(s => ()=> rAll(s,fn)).reduce((p, next)=> {
     return p.then(()=>{
