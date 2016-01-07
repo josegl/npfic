@@ -1,6 +1,6 @@
 export function rAll(arr, fn){
   return new Promise((resolve, reject) => {
-    return arr.map(item => fn(item)).forEach(proc => {
+    return arr.map(item => ()=> fn(item)).forEach(proc => {
       return resolve(proc());
     });
   });
@@ -27,6 +27,7 @@ export function rES(set, fn, n, i = 0){
   });
 }
 
+/*
 export function rLimit(set, fn, l, i = 0){
   return new Promise ((resolve, reject) => {
     let checker = checkRLimitArgs(set, fn, l, i);
@@ -44,9 +45,17 @@ export function rLimit(set, fn, l, i = 0){
     });
   });
 }
+*/
 
-export function rSeq (set, fn){
-  return set.map(item => fn(item)).reduce((curr, next)=> {
+export function rLimit(set, fn, l){
+  return subsets(set,l).map(s => ()=> rAll(s,fn)).reduce((p, next)=> {
+    return p.then(()=>{
+      return next();
+    })},Promise.resolve());
+}
+
+export function rSeq (set){
+  return set.map(item => ()=> fn(item)).reduce((curr, next)=> {
     return curr.then(()=>{
       return next();
     })},Promise.resolve());
