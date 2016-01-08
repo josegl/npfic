@@ -1,30 +1,17 @@
 export function rAll(arr, fn){
   return new Promise((resolve, reject) => {
     return arr.map(item => ()=> fn(item)).forEach(proc => {
-      return resolve(proc());
+      return proc().then(res => {
+        resolve();
+      }).catch(err=>{
+        console.log(err);
+      });
     });
   });
 }
 
-export function rES(set, fn, n, i = 0){
-  return new Promise((resolve,reject) => {
-    let checker = checkRESArgs(set, fn, n, i);
-    if (checker.error)
-      return reject(checker.error);
-    i >= set.length ? resolve() : setTimeout(() => {
-      fn(set[i]).then(result => {
-        if (result)
-          console.log(result);
-        return rES(set, fn, n, i+1);
-      }).then(result => {
-        resolve(result);
-      }).catch(err =>{
-        if (err)
-          console.log(err);
-        resolve(rES(set, fn, n, i+1));
-      });
-    },Math.floor(1000/n));
-  });
+export function rES(set, fn, n){
+  return rSeq(set, ()=>setTimeout(fn,Math.floor(1000/n)));
 }
 
 export function rLimit(set, fn, l){
