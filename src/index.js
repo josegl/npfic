@@ -1,27 +1,33 @@
-export function rAll(arr, fn){
-  return new Promise((resolve, reject) => {
-    return arr.map(item => ()=> fn(item)).forEach(proc => {
-      return proc().then(res => {
-        resolve();
-      }).catch(err=>{
-        console.log(err);
+export function rAll(fn){
+  return function (arr){
+    return new Promise((resolve, reject) => {
+      return arr.map(item => ()=> fn(item)).forEach(proc => {
+        return proc().then(res => {
+          resolve();
+        }).catch(err=>{
+          console.log(err);
+        });
       });
     });
-  });
+  }
 }
 
 export function rES(set, fn, n){
-  return rSeq(set, ()=>setTimeout(fn,Math.floor(1000/n)));
-}
-
-export function rLimit(set, fn, l){
-  return subsets(set,l).map(s => ()=> rAll(s,fn)).reduce((p, next)=> {
-    return p.then(()=>{
-      return next();
+  return new Promise((resolve, reject)=>{
+    set.map(item => ()=> fn(item)).reduce((curr, next)=> {
+      curr.then(()=>{
+        setTimeout(()=>{
+          return resolve(next());
+        }, Math.floor(1000/n));
     })},Promise.resolve());
+  });
 }
 
-export function rSeq (set){
+export function rSubSeq (set, fn, l){
+  return rSeq(subsets(set,l), rAll(fn));
+}
+
+export function rSeq (set, fn){
   return set.map(item => ()=> fn(item)).reduce((curr, next)=> {
     return curr.then(()=>{
       return next();
