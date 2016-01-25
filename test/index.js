@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { rAll, rES, rSubSet, rSeq } from '../src/index';
+import { rAll, rES, rSubSeq, rSeq } from '../src/index';
 import {
   processItemError,
   processItemNoError,
@@ -177,10 +177,10 @@ describe('Promises resolve flow control', ()=>{
     });
   });
   describe('rSubSet 2 by 2', ()=>{
-    it('rSubSet1 should take 6 seconds', done => {
+    it('rSubSeq1 should take 6 seconds', done => {
       let items = [1,2,3];
       let init = Date.now();
-      rSubSet(items, processItemNoError, 2).then(()=>{
+      rSubSeq(items, processItemNoError, 2).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),6);
         done();
