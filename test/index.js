@@ -15,7 +15,7 @@ describe('Promises resolve flow control', ()=>{
     it('rall should finish all process in 3 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rAll(items, processItemNoError).then(()=>{
+      rAll(processItemNoError)(items).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),3);
         done();
@@ -28,7 +28,7 @@ describe('Promises resolve flow control', ()=>{
     it('should finish all processes in 3 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rAll(items, processItemError).then(()=>{
+      rAll(processItemError)(items).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),3);
         done();
@@ -161,66 +161,6 @@ describe('Promises resolve flow control', ()=>{
         done();
       });
     })
-  });
-  describe('rAll with no function', ()=>{
-    it('should throw an error and do not process anything', done => {
-      let items = [1,2,3,4,5,6,7,8,9,10];
-      rAll(items, 'hi').then(()=>{
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
-    })
-  });
-  describe('rES with no function', ()=>{
-    it('should throw an error and do not process anything', done => {
-      let items = [1,2,3,4,5,6,7,8,9,10];
-      rES(items, 'hi', 5).then(()=>{
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
-    });
-  });
-  describe('rSubSet with no function', ()=>{
-    it('should throw an error and do not process anything', done => {
-      let items = [1,2,3,4,5,6,7,8,9,10];
-      rSubSet(items, 'hi', 4).then(()=>{
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
-    });
-  });
-  describe('rAll to a non iterable object', ()=>{
-    it('should throw an error and do not process anything', done => {
-      let items = {1:1,2:2,3:3};
-      rAll(items, processItemNoError).then(()=>{
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
-    });
-  });
-  describe('rES to a non iterable object', ()=>{
-    it('should throw an error and do not process anything', done => {
-      let items = {1:1,2:2,3:3};
-      rES(items, processItemNoError, 4).then(()=>{
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
-    });
-  });
-  describe('rSubSet to a non iterable object', ()=>{
-    it('should throw an error and do not process anything', done => {
-      let items = {1:1,2:2,3:3};
-      rSubSet(items, processItemNoError, 2).then(()=>{
-      }).catch(err => {
-        console.log(err);
-        done();
-      });
-    });
   });
   describe('rSeq, resolve 3 process, 3 seconds each, in sequence', () => {
     it('rSeq will take 9 seconds', done => {
