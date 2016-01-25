@@ -5,7 +5,9 @@
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rimraf lib && babel src --out-dir lib",
-    "test": "mocha --timeout 40000 --compilers js:babel-register --reporter spec test/*.js"
+    "test": "mocha --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
+    "rSeq": "mocha --timeout 40000 --grep 'rSeq' --compilers js:babel-register --reporter spec test/*.js",
+    "rSubSeq": "mocha --timeout 40000 --grep 'rSubSeq1' --compilers js:babel-register --reporter spec test/*.js"
   },
   "repository": {
     "type": "git",
