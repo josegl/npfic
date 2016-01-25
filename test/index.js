@@ -1,16 +1,18 @@
 import chai from 'chai';
-import { rAll, rES, rLimit } from '../src/index';
+import { rAll, rES, rSubSet, rSeq } from '../src/index';
 import {
   processItemError,
   processItemNoError,
   fastrESNoError,
-  fastrESError
+  fastrESError,
+  step1NoError,
+  step2, step3
 } from './helpers';
 
 
 describe('Promises resolve flow control', ()=>{
   describe('rAll 10 items, 3 seconds each each item', ()=>{
-    it('should finish all process in 3 seconds', done => {
+    it('rall should finish all process in 3 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
       rAll(items, processItemNoError).then(()=>{
@@ -75,11 +77,11 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, with no errors', ()=>{
+  describe('rSubSet 10 items by subsets of 3 items each. Each item 3 seconds, with no errors', ()=>{
     it('should finish all processes in 12 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rLimit(items, processItemNoError, 3).then(()=>{
+      rSubSet(items, processItemNoError, 3).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),12);
         done();
@@ -88,11 +90,11 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, only pair items are valid, the others give error', ()=>{
+  describe('rSubSet 10 items by subsets of 3 items each. Each item 3 seconds, only pair items are valid, the others give error', ()=>{
     it('should finish all processes in 12 seconds because in each subset there is at least 1 valid item which takes 3 seconds to be processed', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rLimit(items, processItemError, 3).then(()=>{
+      rSubSet(items, processItemError, 3).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),12);
         done();
@@ -101,11 +103,11 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, initial subset out of range', ()=>{
+  describe('rSubSet 10 items by subsets of 3 items each. Each item 3 seconds, initial subset out of range', ()=>{
     it('should not process any item, taking whole process 0 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rLimit(items, processItemNoError, 3, 5).then(()=>{
+      rSubSet(items, processItemNoError, 3, 5).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),0);
         done();
@@ -114,11 +116,11 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit 10 items by subsets of 3 items each. Each item 3 seconds, initial subset is the last one', ()=>{
+  describe('rSubSet 10 items by subsets of 3 items each. Each item 3 seconds, initial subset is the last one', ()=>{
     it('should process just item 10, taking whole process 3 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rLimit(items, processItemNoError, 3, 3).then(()=>{
+      rSubSet(items, processItemNoError, 3, 3).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),3);
         done();
@@ -127,11 +129,11 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit 10 items by subsets of 13 items each. Each item 3 seconds', ()=>{
+  describe('rSubSet 10 items by subsets of 13 items each. Each item 3 seconds', ()=>{
     it('should process all items, taking whole process 3 seconds', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
       let init = Date.now();
-      rLimit(items, processItemNoError, 13).then(()=>{
+      rSubSet(items, processItemNoError, 13).then(()=>{
         let end = Date.now();
         chai.assert.equal(Math.floor((end - init)/1000),3);
         done();
@@ -140,20 +142,20 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rLimit with negative index', ()=>{
+  describe('rSubSet with negative index', ()=>{
     it('should throw an error and do not process anything', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
-      rLimit(items, processItemNoError, 13, -3).then(()=>{
+      rSubSet(items, processItemNoError, 13, -3).then(()=>{
       }).catch(err => {
         console.log(err);
         done();
       });
     })
   });
-  describe('rLimit with negative limit', ()=>{
+  describe('rSubSet with negative limit', ()=>{
     it('should throw an error and do not process anything', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
-      rLimit(items, processItemNoError, -2).then(()=>{
+      rSubSet(items, processItemNoError, -2).then(()=>{
       }).catch(err => {
         console.log(err);
         done();
@@ -180,10 +182,10 @@ describe('Promises resolve flow control', ()=>{
       });
     });
   });
-  describe('rLimit with no function', ()=>{
+  describe('rSubSet with no function', ()=>{
     it('should throw an error and do not process anything', done => {
       let items = [1,2,3,4,5,6,7,8,9,10];
-      rLimit(items, 'hi', 4).then(()=>{
+      rSubSet(items, 'hi', 4).then(()=>{
       }).catch(err => {
         console.log(err);
         done();
@@ -210,14 +212,42 @@ describe('Promises resolve flow control', ()=>{
       });
     });
   });
-  describe('rLimit to a non iterable object', ()=>{
+  describe('rSubSet to a non iterable object', ()=>{
     it('should throw an error and do not process anything', done => {
       let items = {1:1,2:2,3:3};
-      rLimit(items, processItemNoError, 2).then(()=>{
+      rSubSet(items, processItemNoError, 2).then(()=>{
       }).catch(err => {
         console.log(err);
         done();
       });
     });
+  });
+  describe('rSeq, resolve 3 process, 3 seconds each, in sequence', () => {
+    it('rSeq will take 9 seconds', done => {
+      let items = [1,2,3];
+      let init = Date.now();
+      rSeq(items, processItemNoError).then(()=>{
+        let end = Date.now();
+        chai.assert.equal(Math.floor((end - init)/1000),9);
+        done();
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    });
+  });
+  describe('rSubSet 2 by 2', ()=>{
+    it('rSubSet1 should take 6 seconds', done => {
+      let items = [1,2,3];
+      let init = Date.now();
+      rSubSet(items, processItemNoError, 2).then(()=>{
+        let end = Date.now();
+        chai.assert.equal(Math.floor((end - init)/1000),6);
+        done();
+      }).catch(err => {
+        console.log(err);
+        done();
+      });
+    })
   });
 });
