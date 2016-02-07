@@ -13,25 +13,30 @@ export function rAll(fn){
 }
 
 export function rES(set, fn, n){
-  return new Promise((resolve, reject)=>{
-    set.map(item => ()=> fn(item)).reduce((curr, next)=> {
-      curr.then(()=>{
-        setTimeout(()=>{
-          return resolve(next());
-        }, Math.floor(1000/n));
-    })},Promise.resolve());
-  });
+  return rSeq(promisy(fn, n))(set);
+}
+
+const promisy = (fn, n) => {
+  return function (i){
+    return new Promise((resolve, reject) => {
+      setTimeout(() =>{
+        resolve(fn(i));
+      },Math.floor(1000/n));
+    });
+  }
 }
 
 export function rSubSeq (set, fn, l){
-  return rSeq(subsets(set,l), rAll(fn));
+  return rSeq(rAll(fn))(subsets(set,l));
 }
 
-export function rSeq (set, fn){
-  return set.map(item => ()=> fn(item)).reduce((curr, next)=> {
-    return curr.then(()=>{
-      return next();
-    })},Promise.resolve());
+export function rSeq (fn){
+  return function (set){
+    return set.map(item => ()=> fn(item)).reduce((curr, next)=> {
+      return curr.then(()=>{
+        return next();
+      })},Promise.resolve());
+  }
 }
 
 function subsets(original, subsetSize){
