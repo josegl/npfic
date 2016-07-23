@@ -60,7 +60,6 @@ describe('Promises resolve flow control', ()=>{
       const items = [1,2,3,4,5,6,7,8,9,11];
       const init = Date.now();
       rSeq(asyncDoubleOnlyPairs, items).then(result =>{
-        debugger;
         const end = Date.now();
         chai.assert.deepEqual(result, items.map(i => {
           if (i % 2 === 0){
@@ -70,6 +69,24 @@ describe('Promises resolve flow control', ()=>{
           }
         }));
         chai.assert.equal(Math.floor((end-init)/1000), 5);
+        done();
+      }).catch(err => {
+        throw err;
+      });
+    })
+  });
+  describe('rSubSeq 10 items in 5 chunks of size 2', ()=>{
+    it('should return an array with pairs items doubled and take ~2500 ms', done => {
+    
+      const items = [1,2,3,4,5,6,7,8,9,10];
+      const init = Date.now();
+      rSubSeq(asyncDouble, items, 2).then(result =>{
+        const end = Date.now();
+        chai.assert.deepEqual(result,
+          [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
+        );
+        const takesAround2AndAhalfSecs = (((end-init) - 2500) <= 20);
+        chai.assert.isTrue(takesAround2AndAhalfSecs);
         done();
       }).catch(err => {
         throw err;
