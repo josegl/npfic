@@ -12,7 +12,9 @@ export const rES = (set, fn, n) => rSeq(i => {
   });
 },set);
 
-export const rSubSeq = (set, fn, l) => rSeq(rAll(fn),subsets(set,l));
+export const rSubSeq = (fn, set, l) =>
+  rSeq(rAll(fn),subsets(set,l)).then(result =>
+    Promise.resolve(result.reduce((fa, sa) => fa.concat(sa), [])));
 
 export const rSeq = (fn, set) => new Promise((resolve, reject) => {
   let result = [];
