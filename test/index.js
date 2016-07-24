@@ -93,4 +93,27 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
+  describe('rSubSeq 10 items in 5 chunks of size 2 with errors', ()=>{
+    it('should return an array with pairs items doubled, non pair items error and take ~2500 ms', done => {
+    
+      const items = [1,2,3,4,5,6,7,8,9,11];
+      const init = Date.now();
+      rSubSeq(asyncDoubleOnlyPairs, items, 2).then(result =>{
+        debugger;
+        const end = Date.now();
+        chai.assert.deepEqual(result, items.map(i => {
+          if (i % 2 === 0){
+            return i*2;
+          } else {
+            return {error: 'No pair number'};
+          }
+        }));
+        const takesAround2AndAhalfSecs = (((end-init) - 2500) <= 20);
+        chai.assert.isTrue(takesAround2AndAhalfSecs);
+        done();
+      }).catch(err => {
+        throw err;
+      });
+    })
+  });
 });
