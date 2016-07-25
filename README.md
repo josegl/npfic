@@ -7,7 +7,7 @@
 2. [Examples](#Examples)
 3. [API reference](#api)
 4. [Old API reference](#oldapi)
-  1.[v 2.0](#v2)
-  2.[v 1.0](#v1)
+  4.1.[v 2.0](#v2)
+  4.2.[v 1.0](#v1)
 
-## (#about)1. What is npfic for.
+(#about)## 1. What is npfic for.
