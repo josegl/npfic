@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { rAll, rES, rSubSeq, rSeq } from '../src/index';
+import { rAll, rES, rSubSeq, rSeq, rDelaySeq } from '../src/index';
 import {
   asyncDouble,
   asyncDoubleOnlyPairs
@@ -151,6 +151,27 @@ describe('Promises resolve flow control', ()=>{
           }
         }));
         const takesAround2AndAhalfSecs = (((end-init) - 500) <= 50);
+        chai.assert.isTrue(takesAround2AndAhalfSecs);
+        done();
+      }).catch(err => {
+        throw err;
+      });
+    })
+  });
+  describe('rDelaySeq 10 items, delay 500 ms each one. All errors', ()=>{
+    it('should return an array errors and take ~10 s', done => {
+      const items = [1,1,1,1,1,1,1,1,1,11];
+      const init = Date.now();
+      rDelaySeq(asyncDoubleOnlyPairs, items, 500).then(result =>{
+        const end = Date.now();
+        chai.assert.deepEqual(result, items.map(i => {
+          if (i % 2 === 0){
+            return i*2;
+          } else {
+            return {error: 'No pair number'};
+          }
+        }));
+        const takesAround2AndAhalfSecs = (((end-init) - 10000) <= 50);
         chai.assert.isTrue(takesAround2AndAhalfSecs);
         done();
       }).catch(err => {
