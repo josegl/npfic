@@ -4,13 +4,11 @@ export const rAll = fn => arr => Promise.all(arr.map(item => fn(item).then(procI
   return {error};
 })));
 
-export const rES = (set, fn, n) => rSeq(i => {
-  return new Promise ((resolve, reject) => {
-    setTimeout(() =>{
-      resolve(fn(i));
-    },Math.floor(1000/n));
-  });
-},set);
+export const rDelaySeq = (fn, arr, n) => rSeq(i => new Promise((resolve, reject) => {
+  setTimeout(()=> {
+    resolve(fn(i));
+  },n)
+}), arr);
 
 export const rSubSeq = (fn, set, l) =>
   rSeq(rAll(fn),subsets(set,l)).then(result =>
@@ -41,4 +39,3 @@ const subsets = (original, subsetSize) => {
   }
   return a;
 }
-
