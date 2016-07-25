@@ -1,5 +1,5 @@
 import chai from 'chai';
-import { rAll, rES, rSubSeq, rSeq, rDelaySeq } from '../src/index';
+import { rAll, rSubSeq, rSeq, rDelaySeq } from '../src/index';
 import {
   asyncDouble,
   asyncDoubleOnlyPairs
