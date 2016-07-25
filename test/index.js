@@ -85,7 +85,7 @@ describe('Promises resolve flow control', ()=>{
         chai.assert.deepEqual(result,
           [ 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 ]
         );
-        const takesAround2AndAhalfSecs = (((end-init) - 2500) <= 20);
+        const takesAround2AndAhalfSecs = (((end-init) - 2500) <= 50);
         chai.assert.isTrue(takesAround2AndAhalfSecs);
         done();
       }).catch(err => {
@@ -107,7 +107,7 @@ describe('Promises resolve flow control', ()=>{
             return {error: 'No pair number'};
           }
         }));
-        const takesAround2AndAhalfSecs = (((end-init) - 2500) <= 20);
+        const takesAround2AndAhalfSecs = (((end-init) - 2500) <= 50);
         chai.assert.isTrue(takesAround2AndAhalfSecs);
         done();
       }).catch(err => {
@@ -115,7 +115,7 @@ describe('Promises resolve flow control', ()=>{
       });
     })
   });
-  describe('rSubSeq 10 items in 5 chunks of size 1 with all errors', ()=>{
+  describe('rSubSeq 10 items in 10 chunks of size 1 with all errors', ()=>{
     it('should return an array errors and take ~5000 ms', done => {
       const items = [1,1,1,1,1,1,1,1,1,11];
       const init = Date.now();
@@ -128,7 +128,29 @@ describe('Promises resolve flow control', ()=>{
             return {error: 'No pair number'};
           }
         }));
-        const takesAround2AndAhalfSecs = (((end-init) - 5000) <= 20);
+        const takesAround2AndAhalfSecs = (((end-init) - 5000) <= 50);
+        chai.assert.isTrue(takesAround2AndAhalfSecs);
+        done();
+      }).catch(err => {
+        throw err;
+      });
+    })
+  });
+  describe('rSubSeq 10 items in 1 chunks of size 10 with all errors', ()=>{
+    it('should return an array errors and take ~500 ms', done => {
+      const items = [1,1,1,1,1,1,1,1,1,11];
+      const init = Date.now();
+      rSubSeq(asyncDoubleOnlyPairs, items, 10).then(result =>{
+        const end = Date.now();
+        debugger;
+        chai.assert.deepEqual(result, items.map(i => {
+          if (i % 2 === 0){
+            return i*2;
+          } else {
+            return {error: 'No pair number'};
+          }
+        }));
+        const takesAround2AndAhalfSecs = (((end-init) - 500) <= 50);
         chai.assert.isTrue(takesAround2AndAhalfSecs);
         done();
       }).catch(err => {
