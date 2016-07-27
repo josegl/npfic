@@ -11,3 +11,6 @@
   4.2.[v 1.0](#v1)
 
 ## <a name='about'></a>1. What is npfic for.
+## <a name='Examples'></a>2. Examples.
+## <a name='api'></a>3. API reference.
+## <a name='oldapi'></a>4. Old APIs reference.
