@@ -7,8 +7,8 @@
 2. [Examples](#Examples)
 3. [API reference](#api)
 4. [Old API reference](#oldapi)
-  4.1.[v 2.0](#v2)
-  4.2.[v 1.0](#v1)
+  * [v 2.0](#v2)
+  * [v 1.0](#v1)
 
 ## <a name='about'></a>1. What is npfic for.
 ## <a name='Examples'></a>2. Examples.
