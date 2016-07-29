@@ -6,7 +6,8 @@
   "scripts": {
     "prepublish": "rimraf 'lib' && babel 'src' --out-dir 'lib'",
     "test": "mocha --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
-    "test-debug": "mocha debug --timeout 40000 --compilers js:babel-register --reporter spec test/*.js"
+    "test-debug": "mocha debug --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
+    "check-standard": "standard src/index.js"
   },
   "repository": {
     "type": "git",
@@ -27,6 +28,7 @@
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
     "mocha": "^2.5.3",
+    "standard": "*",
     "rimraf": "^2.5.3"
   }
 }
