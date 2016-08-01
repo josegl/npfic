@@ -64,11 +64,12 @@ which is most similar to `Promise.all`
 
 Lets say we want to do something with different resources that are in different hosts:
 
-```javascript`
+```javascript
 const resource1 = 'https//resource1host.com'
 const resource2 = 'https//resource2host.com'
 const resource3 = 'https//resource3host.com'
-const resources = [resource1, resource2, resource3]
+const resource4 = 'https//resource4host.com'
+const resources = [resource1, resource2, resource3, resource4]
 ```
 
 Now we can generalize a function for fetching one resource with promises.
