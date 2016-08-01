@@ -34,7 +34,8 @@ about.
 `npm install --save npfic`
 
 Then you can choose between the classic `require` and the modern `import` ways:
-**ES6 import**
+
+**ES6 import** 
 `import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'`
 
 **Classic require**
