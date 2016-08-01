@@ -35,7 +35,7 @@ about.
 
 Then you can choose between the classic `require` and the modern `import` ways:</br>
 **ES6 import**</br> 
-```javascrip
+```javascript
 import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'
 ```
 
