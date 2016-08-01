@@ -33,10 +33,11 @@ about.
 ### <a name='installNodejs'></a>2.1. Nodejs.
 `npm install --save npfic`
 
-Then you can choose between the classic `require` and the modern `import` ways:
-
-**ES6 import** 
-`import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'`
+Then you can choose between the classic `require` and the modern `import` ways:</br>
+**ES6 import**</br> 
+```javascrip
+import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'
+```
 
 **Classic require**
 ```javascript
