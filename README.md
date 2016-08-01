@@ -1,52 +1,52 @@
-#NPFIC Node Promises Flow Iteration Control.
 [![Build Status](https://travis-ci.org/josegl/npfic.svg?branch=master)](https://travis-ci.org/josegl/npfic)
 [![npm version](https://img.shields.io/npm/v/npfic.svg?style=flat-square)](https://www.npmjs.com/package/npfic)
+[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-## Index
-1. [What is npfic for](#about)
-2. [Examples](#Examples)
-3. [API reference](#api)
-4. [Old API reference](#oldapi)
+#NPFIC
+Failure tolerant flow control mechanism for native javascript Promises bulk resolution.
+Always returns a Promise that resolves an array of the same length of the given one, for
+the matching index you will get the result expected or an `{error: 'the error'}` object.
+
+Npfic is extremely thin with just 1.1 Kb of non uglified nor gzipped code and has no third
+party deps.
+
+# Table of contents.
+1. [Requirements](#requirements)
+2. [Installation](#Installation)
+  * [Nodejs](#installNodejs)
+  * [Browser](#Browser)
+3. [Examples](#examples)
+4. [API reference](#api)
+5. [Old API reference](#oldapi)
   * [v 2.0](#v2)
   * [v 1.0](#v1)
 
-## <a name='about'></a>1. What is npfic for.
-Npfic is a extremely thin library which provides you few functions in order to control 
-your promises, when you want to apply asynchronous proccesses to many items in bulk. 
-Npfic does not provide any Promises polyfill.
+## <a name='requirements'></a>1. Requirements.
+Npfic provides mechanisms to control Promises flow, but does not provide s promises 
+polyfill, so if you don't have an enviroment that provides a promise polyfill, or native
+javascript promises, you must provide your own.
 
-Npfic is like a powerful `Promise.all`.
+If you are using a modern browser or transpilling ES6 you don't have anything to worry 
+about.
 
-With `Promise.all` if everything goes ok you get an array of results. And that's amazing. 
-But what happen if something goes wrong? If you have an array of 1 million items and only 1
-fails, all of them fails, and maybe those that have failed could be tried again later. 
-Npfic **allways returns a promise that resolves an array which has the same size of the 
-given input array**, and returns at the same index, or the result of the given promise for
-the given index value, or an object with an error like this: `{error: 'the error'}`. 
+## <a name='installation'></a>2. Installation.
+### <a name='installNodejs'></a>2.1. Nodejs.
+`npm install --save npfic`
 
-Unfortunately, we cannot run as many process *in paralell* (remember that javascript is
-not concurrent unless you build your application with clusters). So maybe what you want is
-to iterate over a Promises array. You might already know that it's no so easy to iterate
-over Promises, so Npfic provides you a function which try to resolve all the promises in
-sequence, and then returns you a new Promise which resolves an array of the same size
-as the one given, just like the case above.
+Then you can choose between the classic `require` and the modern `import` ways:
+**ES6 import**
+`import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'`
 
-Npfic can even run subsets of your items in paralell. Imagine you have an array of 1 
-billion items which you may want to send through an API, but that API has a limit of 
-1 million requests per second. Npfic provides you a mechanism which will split the array
-in many subarrays of the length that you specify, and will run the given function in 
-paralell over all the items of each subarray. Then  it will complete each subarray in  
-sequence. And again, Npfic will return you a Promise which will resolve an 
-array of the same length of the given one, with the results if any, or error items for 
-the items that might have failed. 
+**Classic require**
+```javascript
+const rAll      = require('npfic').rAll
+const rDelaySeq = require('npfic').rDelaySeq
+const rSubSeq   = require('npfic').rSubSeq
+const rSeq      = require('npfic').rSeq
+```
 
-And even more! Npfic can resolve an array of items in a delayed sequence. Just specify 
-the number of millisecs you want to delay each run, and npfic will do it for you, again
-it will return a Promise which will resolve an array with the same length of the source
-array, with the result at the index of the items that doesn't have failed, or an Error
-Object.
-
-Do you like what you have just read? Read the next examples section to see Npfic in action.
+### <a name='installNodejs'></a>2.1. Browser.
+`npm install --save npfic`
 
 ## <a name='Examples'></a>2. Examples.
 ## <a name='api'></a>3. API reference.
