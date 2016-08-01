@@ -22,7 +22,7 @@ party deps.
   * [v 1.0](#v1)
 
 ## <a name='requirements'></a>1. Requirements.
-Npfic provides mechanisms to control Promises flow, but does not provide s promises 
+Npfic provides mechanisms to control Promises flow, but does not provide a promises 
 polyfill, so if you don't have an enviroment that provides a promise polyfill, or native
 javascript promises, you must provide your own.
 
