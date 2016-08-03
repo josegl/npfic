@@ -8,8 +8,7 @@
     "test": "mocha --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
     "test-debug": "mocha debug --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
     "coverage": "nyc npm run mocha-node-test -- --grep @nycinvalid --invert",
-    "coveralls": "npm run coverage && nyc report --reporter=text-lcov | coveralls",
-    "check-standard": "standard src/index.js"
+    "coveralls": "npm run coverage && nyc report --reporter=text-lcov | coveralls"
   },
   "repository": {
     "type": "git",
@@ -32,7 +31,6 @@
     "coveralls": "^2.11.12",
     "mocha": "^2.5.3",
     "mocha-lcov-reporter": "^1.2.0",
-    "rimraf": "^2.5.3",
-    "standard": "*"
+    "rimraf": "^2.5.3"
   }
 }
