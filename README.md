@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.org/josegl/npfic.svg?branch=master)](https://travis-ci.org/josegl/npfic)
 [![npm version](https://img.shields.io/npm/v/npfic.svg?style=flat-square)](https://www.npmjs.com/package/npfic)
-[![JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 #NPFIC
 Failure tolerant flow control mechanism for native javascript Promises bulk resolution.
@@ -45,10 +44,10 @@ import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'
 
 **Classic require**
 ```javascript
-const rAll      = require('npfic').rAll
-const rDelaySeq = require('npfic').rDelaySeq
-const rSubSeq   = require('npfic').rSubSeq
-const rSeq      = require('npfic').rSeq
+const rAll      = require('npfic').rAll;
+const rDelaySeq = require('npfic').rDelaySeq;
+const rSubSeq   = require('npfic').rSubSeq;
+const rSeq      = require('npfic').rSeq;
 ```
 
 ### <a name='installBrowser'></a>2.1. Browser.
@@ -65,11 +64,11 @@ which is most similar to `Promise.all`
 Lets say we want to do something with different resources that are in different hosts:
 
 ```javascript
-const resource1 = 'https//resource1host.com'
-const resource2 = 'https//resource2host.com'
-const resource3 = 'https//resource3host.com'
-const resource4 = 'https//resource4host.com'
-const resources = [resource1, resource2, resource3, resource4]
+const resource1 = 'https//resource1host.com';
+const resource2 = 'https//resource2host.com';
+const resource3 = 'https//resource3host.com';
+const resource4 = 'https//resource4host.com';
+const resources = [resource1, resource2, resource3, resource4];
 ```
 
 Now we can generalize a function for fetching one resource with promises.
@@ -108,5 +107,72 @@ for the example above will return a Promise which resolves this array:
 ```
 
 And as `Promise.all` all the promises are resolved in parallel.
+
+### <a name='rSeq-example'></a>3.2. rSeq example.
+`rSeq` is the function that allows you to resolve promises in sequence. 
+Let's say you want to do a for loop to iterate over Promises, and you want to retrieve
+the data from the Promise resolution before the start of the next one.
+There is not an easy way to achieve this with native and plain javascript, so `rSeq` is
+here to help you.</br>
+
+In this example we want to retrieve some resources from an API that has a limit of just
+one connection per client. So you cannot retrieve all the resources at the same time.
+
+```javascript
+const resource1 = 'https//api.com';
+const resource2 = 'https//api.com';
+const resource3 = 'https//api.com';
+const resource4 = 'https//api.com';
+const resources = [resource1, resource2, resource3, resource4];
+```
+
+Let's see how could we solve this with `rSeq` assuming we already have the fetch function
+which retrieves a resource from its url.
+```javascript
+rSeq(fetch, resources).then(res => {
+}).catch(error => {
+  const fetchedResources = res.filter(r => !r.error);
+  //do something with the resources
+  console.log(error); // this will be not reached unless a true catastrophic error
+});
+```
+
+As you can see is quite simple use this function, it is like a Promise.all that never 
+fails, and in this case will apply the `fetch` function to all items in the resources
+array in sequence. Once the first one has finished, the second one will start and so on.
+in sequence.
+
+### <a name='rDelaySeq-example'></a>3.3. rDelaySeq example.
+This is just like `rSeq` shown in the example above but adding a delay of n millisecs 
+between the resolution of each array element:
+
+```javascript
+rDelaySeq(fetch, resources, 300).then(res => {
+}).catch(error => {
+  const fetchedResources = res.filter(r => !r.error);
+  //do something with the resources
+  console.log(error);
+});
+```
+
+### <a name='rSubSeq-example'></a>3.3. rSubSeq example.
+This is a combination of `rAll` and `rSeq`. If for whatever reason you only can resolve
+your promises in chunks of a size lower than all the items length that you have, then 
+`rSubSeq` will execute the promises in parallell by chunks, so if you have 10 items and
+can process only chunks of size 2 in parallell, `rSubSeq` can deal with it. 
+And like all the other npfic functions will return a promise that resolves an array 
+of the original items length.
+
+```javascript
+rSubSeq(fetch, resources, 2).then(res => {
+}).catch(error => {
+  const fetchedResources = res.filter(r => !r.error);
+  //do something with the resources
+  console.log(error);
+});
+```
+**Note:** If you specify a chunk of size 1 the effect will be the same than using `rSeq`
+as you may expect.
 ## <a name='api'></a>3. API reference.
+
 ## <a name='oldapi'></a>4. Old APIs reference.
