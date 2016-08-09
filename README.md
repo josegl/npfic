@@ -130,8 +130,8 @@ Let's see how could we solve this with `rSeq` assuming we already have the fetch
 which retrieves a resource from its url.
 ```javascript
 rSeq(fetch, resources).then(res => {
-}).catch(error => {
   const fetchedResources = res.filter(r => !r.error);
+}).catch(error => {
   //do something with the resources
   console.log(error); // this will be not reached unless a true catastrophic error
 });
@@ -148,8 +148,8 @@ between the resolution of each array element:
 
 ```javascript
 rDelaySeq(fetch, resources, 300).then(res => {
-}).catch(error => {
   const fetchedResources = res.filter(r => !r.error);
+}).catch(error => {
   //do something with the resources
   console.log(error);
 });
@@ -165,8 +165,8 @@ of the original items length.
 
 ```javascript
 rSubSeq(fetch, resources, 2).then(res => {
-}).catch(error => {
   const fetchedResources = res.filter(r => !r.error);
+}).catch(error => {
   //do something with the resources
   console.log(error);
 });
