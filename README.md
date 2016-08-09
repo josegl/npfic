@@ -15,14 +15,11 @@ party deps.
   * [Nodejs](#installNodejs)
   * [Browser](#installBrowser)
 3. [Examples](#examples)
-  * [rAll example](#rall-example)
-  * [rSeq example](#rSeq-example)
-  * [rDelaySeq](#rDelaySeq-example)
-  * [rSubSeq example](#rSubSeq-example)
+  3.1 * [rAll example](#rall-example)
+  3.2 * [rSeq example](#rSeq-example)
+  3.3 * [rDelaySeq](#rDelaySeq-example)
+  3.4 * [rSubSeq example](#rSubSeq-example)
 4. [API reference](#api)
-5. [Old API reference](#oldapi)
-  * [v 2.0](#v2)
-  * [v 1.0](#v1)
 
 ## <a name='requirements'></a>1. Requirements.
 Npfic provides mechanisms to control Promises flow, but does not provide a promises 
@@ -155,7 +152,7 @@ rDelaySeq(fetch, resources, 300).then(res => {
 });
 ```
 
-### <a name='rSubSeq-example'></a>3.3. rSubSeq example.
+### <a name='rSubSeq-example'></a>3.4. rSubSeq example.
 This is a combination of `rAll` and `rSeq`. If for whatever reason you only can resolve
 your promises in chunks of a size lower than all the items length that you have, then 
 `rSubSeq` will execute the promises in parallell by chunks, so if you have 10 items and
@@ -173,6 +170,52 @@ rSubSeq(fetch, resources, 2).then(res => {
 ```
 **Note:** If you specify a chunk of size 1 the effect will be the same than using `rSeq`
 as you may expect.
-## <a name='api'></a>3. API reference.
+## <a name='api'></a>4. API reference.
+I will use the Haskell functions signature.
+### rAll :: Promise fn -> Array a -> Promise p
+`rAll` takes as first argument a function that returns a Promise, and will return another
+function that takes an array as only argument. 
+its implementation is as follows:
+```javascript
+export rAll = fn => arr => Promise.all(array.map(item => fn(item).then(res => res)
+  .catch(error => ({error}))));
+).catch(error => ({error}));
+```
 
-## <a name='oldapi'></a>4. Old APIs reference.
+So to use it:
+```javascript
+rAll(fn)(array);
+```
+
+This function applies the function `fn` to all the items of the `a` array in 
+**parallell** and returns a Promise `p` which resolves an array of the same length 
+of the given array
+`a`
+
+### rSeq :: (Promise fn -> Array a) -> Promise p
+`rSeq` is a function that takes two arguments, the first one is a function `fn` which 
+returns a Pomise and will be applied to all the items of the array `a`, which is the
+second argument. This functions returns a Promise `p` which resolves an array of the
+same length of the array `a`. This function will apply the function `fn` to all the 
+items of the `a` array in **sequence**.
+
+### rDelaySeq :: (Promise fn -> Array a, Integer n) -> Promise p
+`rDelaySeq` is a function that takes three arguments: the first one is a function `fn` 
+which must return a Promise and will be applied to all the items of the array `a`, which
+is the second argument. The third argument is a positive Integer `n` which is the number 
+of milliseconds that you want to delay the application of the `fn` function to each 
+item of the array `a`. So `rDelaySeq` will wait `n` milliseconds between the execution
+of the `fn` function applied to each item of the array `a` generating a delayed sequence.
+
+This function will return a Promise p which will resolve an array of the same length of
+the given array `a`.
+
+### rSubSeq :: (Promise fn -> Array a, Integer n) -> Promise p
+`rSubSeq` is a function that takes three arguments: the first one is a function `fn` 
+which must return a Promise and will be applied to all the items of the array `a`, which
+is the second argument. The third argument is a positive Integer `n` which is the chunk 
+size that you want to resolve in parallell. So `rSubSeq` will split the `a` array 
+in a new array of arrays of `n` length and will execute `rAll` to each subarray.
+
+This function will return a Promise p which will resolve an array of the same length of
+the given array `a`.
