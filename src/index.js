@@ -1,8 +1,5 @@
-export const rAll = fn => arr => Promise.all(arr.map(item => fn(item).then(procItem => {
-  return procItem;
-}).catch(error => {
-  return {error};
-})))
+export const rAll = fn => arr => Promise.all(arr.map(item => fn(item).then(res => res)
+  .catch(error => ({error}))));
 
 export const rDelaySeq = (fn, arr, n) => rSeq(i => new Promise((resolve, reject) => {
   setTimeout(() => {
