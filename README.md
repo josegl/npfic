@@ -23,11 +23,11 @@ party deps.
 5. [License](#license)</br>
 
 ## <a name='requirements'></a>1. Requirements.
-Npfic provides mechanisms to control Promises flow, but does not provide a promises 
-polyfill, so if you don't have an enviroment that provides a promise polyfill, or native
+Npfic provides mechanisms to control Promises flow, but does not provide a promises
+polyfill, so if you don't have an environment that provides a promise polyfill, or native
 javascript promises, you must provide your own.
 
-If you are using a modern browser or transpilling ES6 you don't have anything to worry 
+If you are using a modern browser or transpiling ES6 you don't have anything to worry
 about.
 
 ## <a name='installation'></a>2. Installation.
@@ -35,7 +35,7 @@ about.
 `npm install --save npfic`
 
 Then you can choose between the classic `require` and the modern `import` ways:</br>
-**ES6 import**</br> 
+**ES6 import**</br>
 ```javascript
 import { rAll, rDelaySeq, rSeq, rSubSeq } from 'npfic'
 ```
@@ -56,7 +56,7 @@ In this section you will notice how Npfic provides you different functions which
 you an extreme powerful `Promise.all` that never fails.
 
 ### <a name='rAll-example'></a>3.1. rAll example.
-`rAll` is the function that allows you to resolve promises in parallel. It is the one 
+`rAll` is the function that allows you to resolve promises in parallel. It is the one
 which is most similar to `Promise.all`
 
 Lets say we want to do something with different resources that are in different hosts:
@@ -73,10 +73,10 @@ Now we can generalize a function for fetching one resource with promises.
  I'm going to assume that we are using `fetch` which is Promise ready, so I don't need
  an extra function.</br>
  </br>
- So now that we already have a way to fetch one of the resources, let's say that 
+ So now that we already have a way to fetch one of the resources, let's say that
  resource2 is temporary unavailable. Let's compare `rAll` and `Promise.all`</br>
- 
-**Promise.all** 
+
+**Promise.all**
 ```javascript
 Promise.all(resources.map(resource => fetch(resource))).then(resolvedResources => {
   //Do something with the resources
@@ -85,20 +85,20 @@ Promise.all(resources.map(resource => fetch(resource))).then(resolvedResources =
 });
 ```
 
-In the above code snippet if resource2 is not available for whatever reason. You will 
+In the above code snippet if resource2 is not available for whatever reason. You will
 always go to the `catch` branch of the Promises cascade.
 
 Let's see what happens with `rAll`:</br>
 ```javascript
 rAll(fetch)(resources).then(resolvedResources => {
-  const fetchedResources = resolvedResources.filter(resouce => !resource.error);
+  const fetchedResources = resolvedResources.filter(resource => !resource.error);
   // do something with fetchedResources
 }).catch(error => {
   console.log(error);
 });
 ```
 
-rAll will never go througth the catch branch unless there is a coding error. So rAll 
+rAll will never go through the catch branch unless there is a coding error. So rAll
 for the example above will return a Promise which resolves this array:
 ```javascript
 [resource1-data, {error: 'Network error, timeout bla bla'}, resource3-data, resource4-data]
@@ -107,7 +107,7 @@ for the example above will return a Promise which resolves this array:
 And as `Promise.all` all the promises are resolved in parallel.
 
 ### <a name='rSeq-example'></a>3.2. rSeq example.
-`rSeq` is the function that allows you to resolve promises in sequence. 
+`rSeq` is the function that allows you to resolve promises in sequence.
 Let's say you want to do a for loop to iterate over Promises, and you want to retrieve
 the data from the Promise resolution before the start of the next one.
 There is not an easy way to achieve this with native and plain javascript, so `rSeq` is
@@ -135,13 +135,13 @@ rSeq(fetch, resources).then(res => {
 });
 ```
 
-As you can see is quite simple use this function, it is like a Promise.all that never 
+As you can see is quite simple use this function, it is like a Promise.all that never
 fails, and in this case will apply the `fetch` function to all items in the resources
 array in sequence. Once the first one has finished, the second one will start and so on.
 in sequence.
 
 ### <a name='rDelaySeq-example'></a>3.3. rDelaySeq example.
-This is just like `rSeq` shown in the example above but adding a delay of n millisecs 
+This is just like `rSeq` shown in the example above but adding a delay of n millisecs
 between the resolution of each array element:
 
 ```javascript
@@ -155,10 +155,10 @@ rDelaySeq(fetch, resources, 300).then(res => {
 
 ### <a name='rSubSeq-example'></a>3.4. rSubSeq example.
 This is a combination of `rAll` and `rSeq`. If for whatever reason you only can resolve
-your promises in chunks of a size lower than all the items length that you have, then 
-`rSubSeq` will execute the promises in parallell by chunks, so if you have 10 items and
-can process only chunks of size 2 in parallell, `rSubSeq` can deal with it. 
-And like all the other npfic functions will return a promise that resolves an array 
+your promises in chunks of a size lower than all the items length that you have, then
+`rSubSeq` will execute the promises in parallel by chunks, so if you have 10 items and
+can process only chunks of size 2 in parallel, `rSubSeq` can deal with it.
+And like all the other npfic functions will return a promise that resolves an array
 of the original items length.
 
 ```javascript
@@ -175,7 +175,7 @@ as you may expect.
 I will use the Haskell functions signature.
 ### rAll :: Promise fn -> Array a -> Promise p
 `rAll` takes as first argument a function that returns a Promise, and will return another
-function that takes an array as only argument. 
+function that takes an array as only argument.
 its implementation is as follows:
 ```javascript
 export rAll = fn => arr => Promise.all(array.map(item => fn(item).then(res => res)
@@ -187,23 +187,23 @@ So to use it:
 rAll(fn)(array).then(res => //do whatever you need);
 ```
 
-This function applies the function `fn` to all the items of the `a` array in 
-**parallell** and returns a Promise `p` which resolves an array of the same length 
+This function applies the function `fn` to all the items of the `a` array in
+**parallel** and returns a Promise `p` which resolves an array of the same length
 of the given array
 `a`
 
 ### rSeq :: (Promise fn -> Array a) -> Promise p
-`rSeq` is a function that takes two arguments, the first one is a function `fn` which 
-returns a Pomise and will be applied to all the items of the array `a`, which is the
+`rSeq` is a function that takes two arguments, the first one is a function `fn` which
+returns a Promise and will be applied to all the items of the array `a`, which is the
 second argument. This functions returns a Promise `p` which resolves an array of the
-same length of the array `a`. This function will apply the function `fn` to all the 
+same length of the array `a`. This function will apply the function `fn` to all the
 items of the `a` array in **sequence**.
 
 ### rDelaySeq :: (Promise fn -> Array a, Integer n) -> Promise p
-`rDelaySeq` is a function that takes three arguments: the first one is a function `fn` 
+`rDelaySeq` is a function that takes three arguments: the first one is a function `fn`
 which must return a Promise and will be applied to all the items of the array `a`, which
-is the second argument. The third argument is a positive Integer `n` which is the number 
-of milliseconds that you want to delay the application of the `fn` function to each 
+is the second argument. The third argument is a positive Integer `n` which is the number
+of milliseconds that you want to delay the application of the `fn` function to each
 item of the array `a`. So `rDelaySeq` will wait `n` milliseconds between the execution
 of the `fn` function applied to each item of the array `a` generating a delayed sequence.
 
@@ -211,10 +211,10 @@ This function will return a Promise p which will resolve an array of the same le
 the given array `a`.
 
 ### rSubSeq :: (Promise fn -> Array a, Integer n) -> Promise p
-`rSubSeq` is a function that takes three arguments: the first one is a function `fn` 
+`rSubSeq` is a function that takes three arguments: the first one is a function `fn`
 which must return a Promise and will be applied to all the items of the array `a`, which
-is the second argument. The third argument is a positive Integer `n` which is the chunk 
-size that you want to resolve in parallell. So `rSubSeq` will split the `a` array 
+is the second argument. The third argument is a positive Integer `n` which is the chunk
+size that you want to resolve in parallel. So `rSubSeq` will split the `a` array
 in a new array of arrays of `n` length and will execute `rAll` to each subarray.
 
 This function will return a Promise p which will resolve an array of the same length of
