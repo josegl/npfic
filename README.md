@@ -180,12 +180,11 @@ its implementation is as follows:
 ```javascript
 export rAll = fn => arr => Promise.all(array.map(item => fn(item).then(res => res)
   .catch(error => ({error}))));
-).catch(error => ({error}));
 ```
 
 So to use it:
 ```javascript
-rAll(fn)(array);
+rAll(fn)(array).then(res => //do whatever you need);
 ```
 
 This function applies the function `fn` to all the items of the `a` array in 
