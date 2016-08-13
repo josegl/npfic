@@ -1,36 +1,38 @@
-export const rAll = fn => arr => {
-  return new Promise((resolve, reject) => {
-    return arr.map(item => ()=> fn(item)).forEach(proc => {
-      return proc().then(res => {
-        resolve();
-      });
-    });
-  });
-}
+export const rAll = fn => arr => Promise.all(arr.map(item => fn(item).then(res => res)
+  .catch(error => ({error}))));
 
-export const rES = (set, fn, n) => rSeq(i => {
-  return new Promise ((resolve, reject) => {
-    setTimeout(() =>{
-      resolve(fn(i));
-    },Math.floor(1000/n));
-  });
-},set);
+export const rDelaySeq = (fn, arr, n) => rSeq(i => new Promise((resolve, reject) => {
+  setTimeout(() => {
+    resolve(fn(i));
+  }, n);
+}), arr);
 
-export const rSubSeq = (set, fn, l) => rSeq(rAll(fn),subsets(set,l));
+export const rSubSeq = (fn, set, l) =>
+  rSeq(rAll(fn), subsets(set, l)).then(result =>
+    Promise.resolve(result.reduce((fa, sa) => fa.concat(sa), [])));
 
-export const rSeq = (fn, set) => set.map(item => ()=> fn(item)).
-  reduce((curr, next)=> {
-    return curr.then(()=>{
-      return  next();
-    }).catch(err =>{
+export const rSeq = (fn, set) => new Promise((resolve, reject) => {
+  let result = [];
+  set.map(item => () => fn(item)).reduce((curr, next) => {
+    return curr.then(res => {
+      if (res) result.push(res);
       return next();
-    })},Promise.resolve());
+    }).catch(error => {
+      result.push({error});
+    });
+  }, Promise.resolve()).then(res => {
+    if (res) result.push(res);
+    resolve(result);
+  }).catch(error => {
+    result.push({error});
+    resolve(result);
+  });
+});
 
 const subsets = (original, subsetSize) => {
   let a = [];
-  for (let i = 0; i < original.length; i += subsetSize){
-    a.push(original.slice(i, i+subsetSize));
+  for (let i = 0; i < original.length; i += subsetSize) {
+    a.push(original.slice(i, i + subsetSize));
   }
   return a;
 }
-
