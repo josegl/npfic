@@ -15,10 +15,10 @@ party deps.
   * [Nodejs](#installNodejs)</br>
   * [Browser](#installBrowser)</br>
 3. [Examples](#examples)</br>
-  3.1 * [rAll example](#rall-example)</br>
-  3.2 * [rSeq example](#rSeq-example)</br>
-  3.3 * [rDelaySeq](#rDelaySeq-example)</br>
-  3.4 * [rSubSeq example](#rSubSeq-example)</br>
+  3.1 [rAll example](#rall-example)</br>
+  3.2 [rSeq example](#rSeq-example)</br>
+  3.3 [rDelaySeq example](#rDelaySeq-example)</br>
+  3.4 [rSubSeq example](#rSubSeq-example)</br>
 4. [API reference](#api)</br>
 5. [License](#license)</br>
 
