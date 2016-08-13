@@ -10,16 +10,17 @@ Npfic is extremely thin with just 1.1 Kb of non uglified nor gzipped code and ha
 party deps.
 
 # Table of contents.
-1. [Requirements](#requirements)
-2. [Installation](#Installation)
-  * [Nodejs](#installNodejs)
-  * [Browser](#installBrowser)
-3. [Examples](#examples)
-  3.1 * [rAll example](#rall-example)
-  3.2 * [rSeq example](#rSeq-example)
-  3.3 * [rDelaySeq](#rDelaySeq-example)
-  3.4 * [rSubSeq example](#rSubSeq-example)
-4. [API reference](#api)
+1. [Requirements](#requirements)</br>
+2. [Installation](#Installation)</br>
+  * [Nodejs](#installNodejs)</br>
+  * [Browser](#installBrowser)</br>
+3. [Examples](#examples)</br>
+  3.1 * [rAll example](#rall-example)</br>
+  3.2 * [rSeq example](#rSeq-example)</br>
+  3.3 * [rDelaySeq](#rDelaySeq-example)</br>
+  3.4 * [rSubSeq example](#rSubSeq-example)</br>
+4. [API reference](#api)</br>
+5. [License](#license)</br>
 
 ## <a name='requirements'></a>1. Requirements.
 Npfic provides mechanisms to control Promises flow, but does not provide a promises 
@@ -219,3 +220,6 @@ in a new array of arrays of `n` length and will execute `rAll` to each subarray.
 
 This function will return a Promise p which will resolve an array of the same length of
 the given array `a`.
+
+## <a name='license'></a>5. License.
+MIT
