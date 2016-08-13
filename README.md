@@ -117,10 +117,10 @@ In this example we want to retrieve some resources from an API that has a limit 
 one connection per client. So you cannot retrieve all the resources at the same time.
 
 ```javascript
-const resource1 = 'https//api.com';
-const resource2 = 'https//api.com';
-const resource3 = 'https//api.com';
-const resource4 = 'https//api.com';
+const resource1 = 'https//api.com/resource1';
+const resource2 = 'https//api.com/resource2';
+const resource3 = 'https//api.com/resource3';
+const resource4 = 'https//api.com/resource4';
 const resources = [resource1, resource2, resource3, resource4];
 ```
 
