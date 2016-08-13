@@ -1,14 +1,12 @@
 {
   "name": "npfic",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "Mechanism to control node Promise iteration",
   "main": "lib/index.js",
   "scripts": {
     "prepublish": "rimraf 'lib' && babel 'src' --out-dir 'lib'",
     "test": "mocha --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
-    "test-debug": "mocha debug --timeout 40000 --compilers js:babel-register --reporter spec test/*.js",
-    "coverage": "nyc npm run mocha-node-test -- --grep @nycinvalid --invert",
-    "coveralls": "npm run coverage && nyc report --reporter=text-lcov | coveralls"
+    "test-debug": "mocha debug --timeout 40000 --compilers js:babel-register --reporter spec test/*.js"
   },
   "repository": {
     "type": "git",
@@ -28,9 +26,7 @@
     "babel-preset-stage-0": "^6.5.0",
     "babel-register": "^6.9.0",
     "chai": "^3.5.0",
-    "coveralls": "^2.11.12",
     "mocha": "^2.5.3",
-    "mocha-lcov-reporter": "^1.2.0",
     "rimraf": "^2.5.3"
   }
 }
