@@ -49,7 +49,7 @@ const rSeq      = require('npfic').rSeq;
 ```
 
 ### <a name='installBrowser'></a>2.1. Browser.
-`<scipipt type="text/javascript" src="//npmcdn.com/npfic"></script>`
+`<scipipt type="text/javascript" src="//unpkg.com/npfic"></script>`
 
 ## <a name='Examples'></a>3. Examples.
 In this section you will notice how Npfic provides you different functions which provides
